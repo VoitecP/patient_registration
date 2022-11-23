@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div>   
+    <h3>Cannot Delete Category {{ object }}</h3>
+    <div>Because of Protecion Error</div>
+    <div>
+        <a href="{% url 'patientes:category-list' %}">Return to Category List</a>
+    </div>
+    <div>
+        <p>Name: {{ object.name }}</p>
+    </div> 
+</div>
+{% endblock %}

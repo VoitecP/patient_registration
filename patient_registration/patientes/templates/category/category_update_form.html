@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <a href="{% url 'patientes:category-detail' object.id %}">Cancel</a>
+    <h1>Category Update</h1>
+    <div>
+        <form method="post" action="">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

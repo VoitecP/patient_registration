@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <div>
+        <a href="{% url 'patientes:category-detail' object.id %}">Cancel</a>
+    </div>
+        
+    <h3>Category {{ object }} Deleting</h3>
+</div>
+<hr>
+<div>
+    <div>Details:</div>
+    <div>
+        <p>Name: {{ object.name }}</p>
+    </div> 
+</div>
+
+<h3>Confirm deleting "{{object}}"</h3>
+<form method="post" action="">
+  {% csrf_token %}
+  {{form.as_p}}
+  <button type="submit">Delete</button>
+</form>
+
+{% endblock %}

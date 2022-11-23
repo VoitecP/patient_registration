@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block meta_title %}Registration App{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div>
+      <a href="{% url 'patientes:patient-list' %}">Patients</a>
+      <a href="{% url 'patientes:doctor-list' %}">Doctors</a> 
+      <a href="{% url 'patientes:visit-list' %}">Visit</a> 
+      <a href="{% url 'patientes:category-list' %}">Category</a> 
+      <br>
+      <a href="{% url 'patientes:summary' %}">Summary</a> 
+    </div> 
+	  <div>
+      <h3>{% include 'includes/messages.html' %} </h3>
+    </div>
+    <hr>
+  
+    {% block content %} 
+    {% endblock %}
+
+  </body>
+</html>

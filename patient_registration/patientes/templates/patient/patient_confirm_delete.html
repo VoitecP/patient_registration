@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <div>
+        <a href="{% url 'patientes:patient-detail' object.id %}">Cancel</a>
+    </div>  
+    
+    <h3>Patient {{ object }} Deleting</h3>
+    <hr>
+    <div>Details:</div>
+    <div>
+        <p>Name: {{ object.name }}</p>
+        <p>Surname: {{ object.surname }}</p>
+        <p>Phone: {{ object.phone }}</p>
+        <p>Citizen ID: {{ object.citizen_id}}</p>
+    </div>
+</div>
+<h3>Confirm removing "{{object}}"</h3>
+<form method="post" action="">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Delete</button>
+</form>
+{% endblock %}

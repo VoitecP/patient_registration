@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>   
+    <h3>Cannot Delete Doctor {{ object }}</h3>
+    <div>Because of Protecion Error</div>
+    <br>
+</div>
+<div>   
+    <div>
+        <a href="{% url 'patientes:doctor-list' %}"> Return to Doctor List</a>
+        <br>
+    </div>
+<hr>
+    <div>Details:</div>
+    <div>
+        <p>Name: {{ object.name }}</p>
+        <p>Surname: {{ object.surname }}</p>
+        <p>Phone: {{ object.phone }}</p>
+        <p>Specialisation: {{ object.specialization}}</p>
+    </div> 
+</div>
+
+
+{% endblock %}

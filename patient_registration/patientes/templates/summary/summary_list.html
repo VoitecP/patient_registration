@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+
+<table border="1">
+  <caption>Summary per Category</caption> 
+  <thead>
+	<tr>
+	  <th>Category</th>
+	  <th>Earnings</th>
+	</tr>
+  </thead>
+  	<tr>
+    	{% for category, sum in s_category.items %}
+		<tr>
+			<td align="center">{{category}}</td>
+			<td align="right">{{sum|floatformat:2}}</td>
+		</tr>
+		{% endfor %}
+  	</tr>
+</table>
+
+<hr>
+
+<table border="1">
+  <caption>Summary per Year</caption>
+  <thead>
+	<tr>
+	  <th>Year</th>
+	  <th>Earnings</th>
+	</tr>
+  </thead>
+	<tr>
+    	{% for date, sum in s_year.items %}
+		<tr>
+			<td align="center">{{date}}</td>
+			<td align="right">{{sum|floatformat:2}}</td>
+		</tr>
+		{% endfor %}
+  	</tr>
+</table>
+
+<hr>
+
+<table border="1">
+  <caption>Summary per Month</caption>
+  	<thead>
+		<tr>
+		  <th>Month</th>
+		  <th>Year</th>
+		  <th>Earnings</th>
+		</tr>
+  	</thead> 
+  	<tr>
+    	{% for item in s_month %}
+		<tr>
+			<td align="center">{{item.0}}</td>
+      		<td align="center">{{item.1}}</td>
+			<td align="right">{{item.2|floatformat:2}}</td>
+		</tr>
+		{% endfor %}
+  	</tr>
+</table>
+
+<hr>
+
+<table border="1">
+  <caption>Summary per Doctor</caption> 
+  	<thead>
+		<tr>
+	  		<th>no.</th>
+	  		<th>Name</th>
+	  		<th>Surname</th>
+	  		<th>ID</th>
+	  		<th>Earnings</th>
+		</tr>
+  	</thead> 	
+    	{% for item in s_doctor %}
+		<tr>
+			<td align="center">{{forloop.counter}}.</td>
+			<td align="center">{{item.0}}</td>
+      		<td align="center">{{item.1}}</td>
+      		<td align="center">{{item.2}}</td>
+      		<td align="right">{{item.3|floatformat:2}}</td>
+		</tr>
+		{% empty %}
+	  	<tr>
+			<td colspan="5">no items</td>
+	  	</tr>
+		{% endfor %}
+</table>
+
+<hr>
+
+<table border="1">
+  <caption>Summary Total</caption> 
+  <thead>
+	<tr>
+	  <th>Total Earnings</th>
+	</tr>
+  </thead>
+  	<tr>
+    	{% for key, value  in s_total.items %}
+		<tr>
+			<td align="right">{{value|floatformat:2}}</td>
+		</tr>
+		{% endfor %}
+  	</tr>
+</table>
+{% endblock %}

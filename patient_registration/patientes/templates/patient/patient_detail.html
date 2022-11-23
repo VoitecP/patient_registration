@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <h3>Patient Details</h3>
+    <div>
+        <a href="{% url 'patientes:patient-update' object.id %}">Edit</a>
+	    <a href="{% url 'patientes:patient-delete' object.id %}">Delete</a>  
+    </div>
+    <div>
+        <p>Name: {{ object.name }}</p>
+        <p>Surname: {{ object.surname }}</p>
+        <p>Birth Date: {{ object.birth_date }}</p>
+        <p>Citizen ID: {{ object.citizen_id}}</p>
+        <p>Phone: {{object.phone}}</p>
+    </div>
+    <h3>Adress Details</h3>
+    <div>
+        <p>Adress: {{object.adress}}</p>
+        <p>City: {{object.city}}</p>
+        <p>ZIP Code: {{object.zip_code}}</p>
+    </div>    
+</div>
+{% endblock %}

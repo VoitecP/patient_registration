@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<a href="{% url 'patientes:patient-create' %}">Add Patient</a>
+
+<!--Search Filter-->
+<form method="get" action="">
+	{{form.as_p}}
+	<button type="submit">Search</button>
+  </form>
+<br>
+<table border="1">
+	<caption>Patients</caption>
+	<thead>
+	  <tr>
+		<th>no.</th>
+		<th>ID</th>
+		<th>Name</th>
+		<th>Surname</th>
+		<th>Birth Date</th>
+		<th>Citizen ID</th>
+		<th>Phone</th>
+		<th>Details</th>
+	  </tr>
+	</thead>
+	<tbody>
+		{% for obj in object_list %}
+	  	<tr>
+			<td align="center">{{ page_obj.start_index|add:forloop.counter0 }}.</td>
+			<td align="center">{{ obj.id }}</td>
+			<td align="center">{{ obj.name }}</td>
+			<td align="center">{{ obj.surname }}</td>
+			<td align="right">{{ obj.birth_date }}</td>
+			<td align="center">{{obj.citizen_id}}</td>
+            <td align="center">{{obj.phone}}</td>
+			<td>
+				<a href="{% url 'patientes:patient-detail' obj.id %}">Details</a>
+			</td>
+	  	</tr>
+	  	{% empty %}
+	  	<tr>
+			<td colspan="5">no items</td>
+	  	</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<div>
+	{% include "pagination.html" %}	
+</div>
+{% endblock %}

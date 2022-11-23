@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <a href="{% url 'patientes:visit-detail' object.id %}">Cancel</a>
+    <h3>Visit Update</h3>
+    <div>
+        <form method="post" action="">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
