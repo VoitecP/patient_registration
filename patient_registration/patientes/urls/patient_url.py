@@ -6,5 +6,6 @@ urlpatterns = [
   path('<uuid:id>/update/',PatientUpdateView.as_view(),name='patient-update'),
   path('<uuid:id>/delete/',PatientDeleteView.as_view(),name='patient-delete'),
   path('<uuid:id>/detail/',PatientDetailView.as_view(),name='patient-detail'),
+  path('<slug:slug>/detail/',PatientSlugDetailView.as_view(),name='patient-detail-slug'),
   path('list/',PatientListView.as_view(),name='patient-list'),
 ]

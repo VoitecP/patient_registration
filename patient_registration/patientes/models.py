@@ -1,7 +1,8 @@
 import datetime
 import uuid
 from django.db import models 
-
+from django.urls import reverse
+from django.template.defaultfilters import slugify
 
 
 class VisitDoctorManager(models.Manager):
@@ -18,17 +19,18 @@ class ChoicesCategoryManager(models.Manager):
 #         return super().get_queryset().filter(category__isnull=True)
 
 class Person(models.Model):  #  Abstract Model 
+    
     class Meta:
         abstract=True
         ordering=('surname',)
+    
 
     name=models.CharField(max_length=30)
     surname=models.CharField(max_length=30)
     phone=models.CharField(max_length=12)
     id=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
-    
     objects=models.Manager()     # Default manager for models
-    # slug=models.SlugField(null=False, unique=True)     # <slug:slug>  path in URL 
+    slug=models.SlugField(null=True, unique=True, editable=False)     # <slug:slug>  path in URL 
     # prepopulated_fields={'slug':('name','surname')}
     
     @property
@@ -39,22 +41,36 @@ class Person(models.Model):  #  Abstract Model
     def __str__(self):
         return f'{self.full_name}'
 
-    # def get_absolute_url(self):
-    #     return reverse("model_detail", kwargs={"slug": self.slug})
+    def get_absolute_url(self):
+        name=self.__class__.__name__.lower()
+        return reverse('patientes:'+name+'-detail-slug', kwargs={'slug':self.slug})
+
+    def save(self, *args, **kwargs):
+        # if not self.slug:
+        self.slug=slugify(self.full_name+ "-" + str(self.id)[0:5])
+        return super().save(*args,**kwargs)
+
+    
     
 class Patient(Person):
+
     citizen_id=models.CharField(max_length=11)
     birth_date=models.DateField()
     adress=models.CharField(max_length=80)
     city=models.CharField(max_length=20)
     zip_code=models.CharField(max_length=5)
-    id=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
+    # id=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
+
+        
     
+
 class Doctor(Person):
     specialization=models.CharField(max_length=12)
     visit_objects=VisitDoctorManager()
     # objects=models.Manager()
     
+   
+
 class Category(models.Model):
     class Meta:
         ordering=('name',)

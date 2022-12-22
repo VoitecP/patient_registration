@@ -11,9 +11,12 @@ from django.db.models import Q, ProtectedError
 from django.shortcuts import render
 
 class UUIDMixin(SingleObjectMixin):
-    
     def get_object(self):
         return self.model.objects.get(id=self.kwargs.get("id"))
+
+class SlugMixin(SingleObjectMixin):
+    def get_object(self):
+        return self.model.objects.get(slug=self.kwargs.get("slug"))        
 
 class DoctorCreateView(CreateView):
     model = Doctor
@@ -41,6 +44,10 @@ class DoctorDeleteView(UUIDMixin,DeleteView):
             return render(request, 'doctor\doctor_error_delete.html', {'object': object})
 
 class DoctorDetailView(UUIDMixin,DetailView):
+    model = Doctor
+    template_name='doctor\doctor_detail.html'
+
+class DoctorSlugDetailView(SlugMixin,DetailView):
     model = Doctor
     template_name='doctor\doctor_detail.html'
 

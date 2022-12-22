@@ -22,7 +22,7 @@
 		{% for obj in object_list  %}
 	  	<tr>
 			<td align="center">{{ page_obj.start_index|add:forloop.counter0 }}.</td>
-			<td align="center">{{ obj.id }}</td>
+			<td align="center">{{ obj.id|truncatechars:5  }}</td>
 			<td align="center">{{ obj.name }}</td>
 			<td>
 				<a href="{% url 'patientes:category-detail' obj.id %}">Details</a>

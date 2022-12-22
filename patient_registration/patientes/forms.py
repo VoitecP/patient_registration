@@ -4,7 +4,9 @@ from .models import *
 class PatientSearchForm(forms.ModelForm):
     class Meta:
         model = Patient
-        fields = ('name','sorting_date',)    
+        fields = ('name','sorting_date',)
+        # exclude=['slug']  
+          
 
     name=forms.CharField(max_length=50,label='Patient Name or Surname')
     SORT_CHOICES=[
@@ -39,6 +41,7 @@ class DoctorSearchForm(forms.ModelForm):
     class Meta:
         model = Doctor
         fields = ('name',) 
+        # exclude=['slug']  
 
     name=forms.CharField(max_length=50,label='Doctor Name or Surname')
 

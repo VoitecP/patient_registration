@@ -10,10 +10,14 @@ from django.urls import reverse_lazy
 from django.db.models import Q, ProtectedError
 from django.shortcuts import render
 
+
 class UUIDMixin(SingleObjectMixin):
-    
     def get_object(self):
         return self.model.objects.get(id=self.kwargs.get("id"))
+
+class SlugMixin(SingleObjectMixin):
+    def get_object(self):
+        return self.model.objects.get(slug=self.kwargs.get("slug"))
 
 class PatientCreateView(CreateView):
     model = Patient
@@ -21,7 +25,7 @@ class PatientCreateView(CreateView):
     success_url=reverse_lazy('patientes:patient-list')
     template_name='patient\patient_form.html'
 
-class PatientUpdateView(UUIDMixin,UpdateView):
+class PatientUpdateView(UUIDMixin, UpdateView):
     model = Patient    
     fields='__all__'
     success_url=reverse_lazy('patientes:patient-list')
@@ -40,7 +44,11 @@ class PatientDeleteView(UUIDMixin,DeleteView):
             messages.error(request, "Django Message - Protected error, ups")
             return render(request, 'patient\patient_error_delete.html', {'object': object})
 
-class PatientDetailView(UUIDMixin,DetailView):
+class PatientDetailView(UUIDMixin, DetailView):
+    model = Patient
+    template_name='patient\patient_detail.html'
+
+class PatientSlugDetailView(SlugMixin, DetailView):
     model = Patient
     template_name='patient\patient_detail.html'
 

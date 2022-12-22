@@ -19,6 +19,7 @@
 		<th>Surname</th>
 		<th>Phone</th>
 		<th>Specialisation</th>
+		<th>Absolute URL</th>
 		<th>Details</th>
 		<th>Visits</th>
 	  </tr>
@@ -27,11 +28,12 @@
 		{% for obj in object_list  %}
 	  	<tr>
 			<td align="center">{{ page_obj.start_index|add:forloop.counter0 }}.</td>
-			<td align="center">{{ obj.id }}</td>
+			<td align="center">{{ obj.id|truncatechars:5 }}</td>
 			<td align="center">{{ obj.name }}</td>
 			<td align="center">{{ obj.surname }}</td>
 			<td align="right">{{ obj.phone }}</td>
 			<td align="center">{{obj.specialization}}</td>
+			<td align="center"><a href="{{obj.get_absolute_url}}">Slug URL</td>
 			<td>
 				<a href="{% url 'patientes:doctor-detail' obj.id %}">Details</a>
 			</td>
