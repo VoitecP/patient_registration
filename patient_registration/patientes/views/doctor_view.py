@@ -1,5 +1,5 @@
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from ..models import Doctor
@@ -10,19 +10,24 @@ from django.urls import reverse_lazy
 from django.db.models import Q, ProtectedError
 from django.shortcuts import render
 
+class UUIDMixin(SingleObjectMixin):
+    
+    def get_object(self):
+        return self.model.objects.get(id=self.kwargs.get("id"))
+
 class DoctorCreateView(CreateView):
     model = Doctor
     fields='__all__'
     success_url=reverse_lazy('patientes:doctor-list')
     template_name='doctor\doctor_form.html'
 
-class DoctorUpdateView(UpdateView):
+class DoctorUpdateView(UUIDMixin,UpdateView):
     model = Doctor    
     fields='__all__'
     success_url=reverse_lazy('patientes:doctor-list')
     template_name='doctor\doctor_update_form.html'
 
-class DoctorDeleteView(DeleteView):
+class DoctorDeleteView(UUIDMixin,DeleteView):
     model = Doctor    
     success_url=reverse_lazy('patientes:doctor-list')
     template_name='doctor\doctor_confirm_delete.html'
@@ -34,6 +39,10 @@ class DoctorDeleteView(DeleteView):
         except ProtectedError:
             messages.error(request, "Django Message - Protected error, ups")
             return render(request, 'doctor\doctor_error_delete.html', {'object': object})
+
+class DoctorDetailView(UUIDMixin,DetailView):
+    model = Doctor
+    template_name='doctor\doctor_detail.html'
 
 class DoctorListView(ListView):
     model = Doctor
@@ -56,6 +65,3 @@ class DoctorListView(ListView):
             object_list=queryset,
             **kwargs)
 
-class DoctorDetailView(DetailView):
-    model = Doctor
-    template_name='doctor\doctor_detail.html'

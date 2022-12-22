@@ -1,5 +1,5 @@
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from ..models import Category
@@ -10,6 +10,10 @@ from django.urls import reverse_lazy
 from django.db.models import ProtectedError
 from django.shortcuts import render
 
+class UUIDMixin(SingleObjectMixin):
+    
+    def get_object(self):
+        return self.model.objects.get(id=self.kwargs.get("id"))
 
 class CategoryCreateView(CreateView):
     model = Category
@@ -17,14 +21,13 @@ class CategoryCreateView(CreateView):
     success_url=reverse_lazy('patientes:category-list')
     template_name='category/category_form.html'
 
-class CategoryUpdateView(UpdateView):
-
+class CategoryUpdateView(UUIDMixin,UpdateView):
     model = Category    
     fields='__all__'
     success_url=reverse_lazy('patientes:category-list')
     template_name='category/category_update_form.html'
 
-class CategoryDeleteView(DeleteView):
+class CategoryDeleteView(UUIDMixin,DeleteView):
     model = Category  
     success_url=reverse_lazy('patientes:category-list')
     template_name='category/category_confirm_delete.html'
@@ -38,7 +41,7 @@ class CategoryDeleteView(DeleteView):
             return render(request, 'patientes\category_error_delete.html', {'object': object})
 
 
-class CategoryDetailView(DetailView):
+class CategoryDetailView(UUIDMixin,DetailView):
     model = Category
     template_name='category/category_detail.html'
 

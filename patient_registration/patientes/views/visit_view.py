@@ -1,12 +1,19 @@
+from django.views.generic import View
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
 
 from ..models import Visit
 from ..forms import VisitSearchForm
 
 from django.urls import reverse_lazy
 from django.db.models import Q
+
+class UUIDMixin(SingleObjectMixin):
+    
+    def get_object(self):
+        return self.model.objects.get(id=self.kwargs.get("id"))
 
 
 class VisitCreateView(CreateView):
@@ -15,20 +22,24 @@ class VisitCreateView(CreateView):
     success_url=reverse_lazy('patientes:visit-list')
     template_name='visit/visit_form.html'   # default path: \patientes\templates\patientes\visit_form,html
 
-class VisitUpdateView(UpdateView):
+class VisitUpdateView(UUIDMixin,UpdateView):
     model = Visit    
     fields='__all__'
     success_url=reverse_lazy('patientes:visit-list')
     template_name='visit/visit_update_form.html'
 
-class VisitDeleteView(DeleteView):
+class VisitDeleteView(UUIDMixin,DeleteView):
     model = Visit  
     success_url=reverse_lazy('patientes:visit-list')
     template_name='visit/visit_confirm_delete.html'
 
-class VisitDetailView(DetailView):
+class VisitDetailView(UUIDMixin,DetailView):
     model = Visit
     template_name='visit/visit_detail.html'
+
+    # def get_object(self):
+    #     return self.model.objects.get(id=self.kwargs.get("id"))
+    #     # return self.model.objects.get(id=self.kwargs.get("id"))
 
 class VisitListView(ListView):
     model = Visit

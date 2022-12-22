@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import RedirectView
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',RedirectView.as_view(pattern_name='patientes:visit-list'), name='base'),
-    path('registration/', include(('patientes.urls','patientes'), namespace='patientes')), # app should be renamend up to "registration"
+    path('registration/', include(('patientes.urls','patientes'), namespace='registration')), # app should be renamend up to "registration"
+    path('api/', include(('api.urls','api'), namespace='api')),
 ]
 
 
