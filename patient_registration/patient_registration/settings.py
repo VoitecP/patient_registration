@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'django_filters',
+    'members',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +138,17 @@ REST_FRAMEWORK ={
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 4
 }
+
+AUTH_USER_MODEL = 'members.User'
+
+AUTH_PASSWORD_VALIDATORS = [
+   {
+       'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+       'OPTIONS': {
+           'min_length': 8,
+       }
+   },
+   {
+       'NAME': 'members.validators.ContainsLetterValidator',
+   },
+]

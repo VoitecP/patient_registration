@@ -114,6 +114,11 @@ venv.bak/
 ../env/
 
 
+# Rar files
+*.rar
+../*.rar
+./*.rar
+
 
 # Spyder project settings
 .spyderproject

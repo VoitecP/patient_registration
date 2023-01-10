@@ -2,7 +2,7 @@ from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from ..models import Visit
 from ..forms import VisitSearchForm
@@ -10,25 +10,34 @@ from ..forms import VisitSearchForm
 from django.urls import reverse_lazy
 from django.db.models import Q
 
+
+class LoginMixin(LoginRequiredMixin):
+    login_url = 'members:login'
+    redirect_field_name = 'redirect_to'
+
 class UUIDMixin(SingleObjectMixin):
     
     def get_object(self):
         return self.model.objects.get(id=self.kwargs.get("id"))
 
 
-class VisitCreateView(CreateView):
+class VisitCreateView(LoginMixin, CreateView):
     model = Visit
     fields='__all__'
     success_url=reverse_lazy('patientes:visit-list')
     template_name='visit/visit_form.html'   # default path: \patientes\templates\patientes\visit_form,html
 
-class VisitUpdateView(UUIDMixin,UpdateView):
+    # login_url = 'login/'
+    login_url = 'members:login'
+    redirect_field_name = 'redirect_to'
+
+class VisitUpdateView(UUIDMixin,LoginMixin,UpdateView):
     model = Visit    
     fields='__all__'
     success_url=reverse_lazy('patientes:visit-list')
     template_name='visit/visit_update_form.html'
 
-class VisitDeleteView(UUIDMixin,DeleteView):
+class VisitDeleteView(UUIDMixin,LoginMixin,DeleteView):
     model = Visit  
     success_url=reverse_lazy('patientes:visit-list')
     template_name='visit/visit_confirm_delete.html'

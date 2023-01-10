@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter
 # router=routers.DefaultRouter()
 router=DefaultRouter()
 
-router.register('patients', PatientViewSet)
+router.register('patientes', PatientViewSet, basename='patientes')
 router.register('visits', VisitViewSet)
 router.register('doctors', DoctorViewSet)
 router.register('categories', CategoryViewSet)
@@ -16,9 +16,15 @@ router.register('categories', CategoryViewSet)
 
 # urlpatterns = router.urls
 
+
+
 urlpatterns =[
-    path('', include(router.urls)),
-    # path('patients/', PatientsApi.as_view(),name='patients-api'),
+    path('api2/', include((router.urls,'api'))),
+    
+    #   {% url 'api:patients' %}
+    # path('', PatientCreateView.as_view(), name='patients'),                  # temp view
+    
+    
     # path('patients/<str:pk>/',PatientApi.as_view(),name='patient-api'),
     # path('visits/', VisitsApi.as_view(),name='visits-api'),
     # path('visits/<str:pk>/', VisitApi.as_view(),name='visit-api'),

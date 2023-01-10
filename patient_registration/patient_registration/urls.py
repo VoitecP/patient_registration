@@ -23,6 +23,9 @@ urlpatterns = [
     path('',RedirectView.as_view(pattern_name='patientes:visit-list'), name='base'),
     path('registration/', include(('patientes.urls','patientes'), namespace='registration')), # app should be renamend up to "registration"
     path('api/', include(('api.urls','api'), namespace='api')),
+    path('members/', include('members.urls','members'), name='members'),
+    path('members/', include('django.contrib.auth.urls'), name='members'),
+    
 ]
 
 

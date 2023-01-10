@@ -7,7 +7,19 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
+
+
 # from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
+
+class PatientCreateView(CreateView):   # test view
+    model = Patient
+    fields='__all__'
+    # success_url=reverse_lazy('patientes:patient-list')
+    template_name='patient\patient_form.html'
+
+
 
 class PatientViewSet(ModelViewSet):
     pagination_class=PageNumberPagination

@@ -12,10 +12,24 @@
       <a href="{% url 'patientes:category-list' %}">Category</a> 
       <br>
       <a href="{% url 'patientes:summary' %}">Summary</a> 
+      <br>
+      <a href="{% url 'patientes:summary' %}">API</a>
+      <br>
+        <div>
+          {% if user.is_authenticated  %}
+            <p>You are logged in as {{ user }}</p>
+            <a class="nav-link" href="{% url 'members:logout' %}">Logout</a> 
+
+          {% else %} 
+          <p>You are Not logged in as {{ request.user }}</p>
+            <a class="nav-link" href="{% url 'members:login' %}">Login</a> 
+          {% endif %}
+        </div>
     </div> 
 	  <div>
       <h3>{% include 'includes/messages.html' %} </h3>
     </div>
+    
     <hr>
   
     {% block content %} 
