@@ -1,6 +1,6 @@
 # Patient Registration with API
 - Django 4.0 based, 
-- API included
+- API included, DRF  Framework Used
 - Slug and UUID
 - URL Router
 - CRUD Methodology with templates
