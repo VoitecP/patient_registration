@@ -6,7 +6,7 @@
 - CRUD Methodology with templates
 - Class based View's
 - Clean Code
-- Login Account (in development)
+- Login Account 
 - ( In development progress ) 
 
 
