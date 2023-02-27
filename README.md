@@ -24,6 +24,10 @@ Any sugesstions and ideas to improve or expand this aplication will welcome.
 ```
 git clone https://github.com/VoitecP/patient_registration.git
 ```
+
+Execude included Script BAT file, Run-app.bat It will do all necessary work, install Virtual Env, with requirements, create .env file from template and run project !
+But if you want to do it manually, just follow this steps:
+
 ```
 cd patient_registration
 ```
