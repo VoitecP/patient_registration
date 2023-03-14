@@ -46,9 +46,9 @@ class VisitDetailView(UUIDMixin,DetailView):
     model = Visit
     template_name='visit/visit_detail.html'
 
-    # def get_object(self):
-    #     return self.model.objects.get(id=self.kwargs.get("id"))
-    #     # return self.model.objects.get(id=self.kwargs.get("id"))
+    def get_object(self):
+        return self.model.objects.get(id=self.kwargs.get("id"))
+        # return self.model.objects.get(id=self.kwargs.get("id"))
 
 class VisitListView(ListView):
     model = Visit

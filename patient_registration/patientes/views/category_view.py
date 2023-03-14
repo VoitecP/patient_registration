@@ -2,13 +2,16 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from ..models import Category
+
 from ..forms import CategorySearchForm
- 
+from ..models import Category
+
+
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.db.models import ProtectedError
 from django.shortcuts import render
+
 
 class UUIDMixin(SingleObjectMixin):
     

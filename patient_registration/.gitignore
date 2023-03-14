@@ -6,6 +6,13 @@ __pycache__/
 # C extensions
 *.so
 
+#migrations
+migrations/
+
+#postgre data
+local-db-data/
+
+
 # Distribution / packaging
 .Python
 build/
@@ -25,6 +32,7 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
 MANIFEST
 
 # PyInstaller
@@ -90,7 +98,7 @@ ipython_config.py
 #   However, in case of collaboration, if having platform-specific dependencies or dependencies
 #   having no cross-platform support, pipenv may install dependencies that don't work, or not
 #   install all needed dependencies.
-#Pipfile.lock
+# Pipfile.lock
 
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
@@ -103,15 +111,19 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+env
+..env
 .env
 .venv
 env/
-venv/
-ENV/
+/env/*
+venv/*
+ENV/*
 env.bak/
 venv.bak/
-# Add path
-../env/
+../env/*
+./env/*
+
 
 
 # Rar files

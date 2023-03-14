@@ -1,5 +1,7 @@
+from django.db.utils import OperationalError   
 from django import forms
 from .models import *
+
 
 class PatientSearchForm(forms.ModelForm):
     class Meta:
@@ -34,6 +36,7 @@ class PatientSearchForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        model = super().__class__()         # 'soft code' prevents operational error when try to migrate without db
         self.fields['name'].required = False
         self.fields['sorting_date'].required = False
 
@@ -47,6 +50,7 @@ class DoctorSearchForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        model = super().__class__()         # 'soft code' prevents operational error when try to migrate migrate without db
         self.fields['name'].required = False
 
 class VisitSearchForm(forms.ModelForm):
@@ -78,9 +82,19 @@ class VisitSearchForm(forms.ModelForm):
         widget=forms.DateInput(format='%Y'),  # or full date '%d%m%Y'
         input_formats=['%Y'],
         )  
-    
-    # CATEG_CHOICES=Category.objects.all().values_list('id','name')  # without choices manager
-    CATEG_CHOICES= Category.choices_objects.all()
+
+    # CATEG_CHOICES= Category.choices_objects.all()
+    # CATEG_CHOICES=Category.objects.values_list('id','name')  # without choices manager
+   
+    choice_list = []
+    try:
+        choice_list.extend(Category.choices_objects.all())
+        # choice_list.extend(Category.objects.values_list('id','name'))
+    except OperationalError:
+        pass  # happens when db doesn't exist yet 
+         
+    CATEG_CHOICES=choice_list
+
     categories=forms.MultipleChoiceField(
         choices=CATEG_CHOICES,widget=forms.CheckboxSelectMultiple,
         label='Categories'
@@ -88,6 +102,7 @@ class VisitSearchForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        model = super().__class__()         # 'soft code' prevents operational error when try to migrate  migrate without db
         self.fields['patient_name'].required = False
         self.fields['doctor_name'].required = False
         self.fields['sorting_date'].required = False
@@ -102,7 +117,9 @@ class CategorySearchForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        model = super().__class__()         # 'soft code' prevents operational error when try to migrate migrate without db
         self.fields['name'].required = False    
     
-    
+
+
     

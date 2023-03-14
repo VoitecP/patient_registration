@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 from django.db.models import Q, ProtectedError
 from django.shortcuts import render
 
+
 class UUIDMixin(SingleObjectMixin):
     def get_object(self):
         return self.model.objects.get(id=self.kwargs.get("id"))

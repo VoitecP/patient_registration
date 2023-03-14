@@ -18,6 +18,8 @@ class ChoicesCategoryManager(models.Manager):
 #     def get_queryset(self):
 #         return super().get_queryset().filter(category__isnull=True)
 
+
+
 class Person(models.Model):  #  Abstract Model 
     
     class Meta:
@@ -25,8 +27,8 @@ class Person(models.Model):  #  Abstract Model
         ordering=('surname',)
     
 
-    name=models.CharField(max_length=30)
-    surname=models.CharField(max_length=30)
+    name=models.CharField(max_length=30, default='')
+    surname=models.CharField(max_length=30,  default='')
     phone=models.CharField(max_length=12)
     id=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     objects=models.Manager()     # Default manager for models
@@ -55,7 +57,7 @@ class Person(models.Model):  #  Abstract Model
 class Patient(Person):
 
     citizen_id=models.CharField(max_length=11)
-    birth_date=models.DateField()
+    birth_date=models.DateField(default=datetime.date.today())
     adress=models.CharField(max_length=80)
     city=models.CharField(max_length=20)
     zip_code=models.CharField(max_length=5)
@@ -74,7 +76,7 @@ class Doctor(Person):
 class Category(models.Model):
     class Meta:
         ordering=('name',)
-    name=models.CharField(max_length=30, unique=True)
+    name=models.CharField(max_length=30, unique=True, default='')
     objects=models.Manager()   # reverse error when no defined / commented
     choices_objects=ChoicesCategoryManager()
     id=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
@@ -88,11 +90,11 @@ class Visit(models.Model):
 
     id=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     date=models.DateTimeField(default=datetime.date.today)    
-    patient=models.ForeignKey(Patient, models.PROTECT)
-    doctor=models.ForeignKey(Doctor, models.PROTECT)
+    patient=models.ForeignKey(Patient, models.PROTECT, default='')
+    doctor=models.ForeignKey(Doctor, models.PROTECT, default='')
     description=models.TextField()
     price=models.CharField(max_length=10)
-    category=models.ForeignKey(Category,models.PROTECT,null=True,blank=True)
+    category=models.ForeignKey(Category,models.PROTECT,null=True,blank=True, default='')
     objects=models.Manager() 
     # object=models.Manager()  # Better to name as 'objects'
     # null_cat_object=NullCategoryManager()
