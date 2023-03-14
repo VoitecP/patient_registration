@@ -26,8 +26,8 @@ git clone https://github.com/VoitecP/patient_registration.git
 ```
 
 Execude included Script BAT file:
-run-app-pip.bat  Will  create Virtual enviroment using pip and Run .
-run-app-pipen.bat (Recommended) will check if your local python instalation have package pipenv, then it will install, create Pipenv for that project and Run !
+- run-app-pip.bat  Will  create Virtual enviroment using pip and Run .
+- run-app-pipen.bat (Recommended) will check if your local python instalation have package pipenv, then it will install, create Pipenv for that project and Run !
 
 It will do all necessary work, install Virtual Env, with requirements, create .env file from template and run project !
 But if you want to do it manually, just follow this steps:
