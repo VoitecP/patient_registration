@@ -25,7 +25,11 @@ Any sugesstions and ideas to improve or expand this aplication will welcome.
 git clone https://github.com/VoitecP/patient_registration.git
 ```
 
-Execude included Script BAT file, Run-app.bat It will do all necessary work, install Virtual Env, with requirements, create .env file from template and run project !
+Execude included Script BAT file:
+run-app-pip.bat  Will  create Virtual enviroment using pip and Run .
+run-app-pipen.bat (Recommended) will check if your local python instalation have package pipenv, then it will install, create Pipenv for that project and Run !
+
+It will do all necessary work, install Virtual Env, with requirements, create .env file from template and run project !
 But if you want to do it manually, just follow this steps:
 
 ```
@@ -41,10 +45,8 @@ source env/bin/activate
 ```
 pip install -r requirements.txt
 ```
-You need to create  Enviroment file .env 
-```
-Create .env file setting in base dir patient_registration  open .env file and paste SECRET_KEY='your_key' save file
-```
+You need to create  Enviroment file .env renaming env-template
+
 Test database are already included !
 ```
 py manage.py runserver
