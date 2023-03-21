@@ -9,55 +9,148 @@ from rest_framework.pagination import PageNumberPagination
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
+#########
 
+from rest_framework.views import APIView
+from rest_framework.response import  Response
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 
 # from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 
 class PatientCreateView(CreateView):   # test view
-    model = Patient
+    model=Patient
     fields='__all__'
     # success_url=reverse_lazy('patientes:patient-list')
     template_name='patient\patient_form.html'
 
 
 
-class PatientViewSet(ModelViewSet):
-    pagination_class=PageNumberPagination
-    queryset=Patient.objects.all()
-    serializer_class=PatientSerializer
-    filter_backends=[DjangoFilterBackend, SearchFilter, OrderingFilter]
-    # filterset_fields=['id','name','surname']    
-    filterset_class=PatientFilter           #instead of filterset_fields
-    search_fields=['name','surname','citizen_id']   # works with  partial name one field to search looks thru fields
-    ordering_fields=['citizen_id', 'name', 'surname']   # 'name'
+class PatientsApi(APIView):
+    def get(self, request):
+        queryset=Patient.objects.all()
+        serializer=PatientSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer=PatientSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+
+class PatientApi(APIView):
+    def get(self, request, pk):
+        object=get_object_or_404(Patient, id=pk)
+        serializer=PatientSerializer(object)
+        return Response(serializer.data)
     
-class DoctorViewSet(ModelViewSet):
-    queryset=Doctor.objects.all()
-    serializer_class=DoctorSerializer
+    def put(self, request, pk):
+        object=get_object_or_404(Patient, id=pk)
+        serializer=PatientSerializer(object, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    def delete(self, request, pk):
+        object=get_object_or_404(Patient, id=pk)
+        object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-# class VisitViewSet(CreateModelMixin, RetrieveModelMixin,  DestroyModelMixin, GenericViewSet):
-#     queryset= Visit.objects.all()
-#     serializer_class=VisitSerializer
-    #  Config Router..
-    #  URLs     router.register("visits", views.VisitViewSet)
 
 
-class VisitViewSet(ModelViewSet):
-    queryset=Visit.objects.all()
-    serializer_class=VisitSerializer
+class DoctorsApi(APIView):
+    def get(self, request):
+        queryset=Doctor.objects.all()
+        serializer=DoctorSerializer(queryset, many=True)
+        return Response(serializer.data)
 
-class CategoryViewSet(ModelViewSet):
-    queryset=Category.objects.all()
-    serializer_class=CategorySerializer
+    def post(self, request):
+        serializer=DoctorSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
-#  Opinion model to implement and add to Nested Router
-# class OpinionViewSet(ModelViewSet):
-#     serializer_class=OpinionSerializer
 
-#     def get_queryset(self):
-#         queryset=Opinion.objects.filter(visit_id=self.kwargs["visit_pk"])
-#         return queryset
+class DoctorApi(APIView):
+    def get(self, request, pk):
+        object=get_object_or_404(Doctor, id=pk)
+        serializer=DoctorSerializer(object)
+        return Response(serializer.data)
+    
+    def put(self, request, pk):
+        object=get_object_or_404(Doctor, id=pk)
+        serializer=DoctorSerializer(object, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    def delete(self, request, pk):
+        object=get_object_or_404(Doctor, id=pk)
+        object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-#     def get_serializer_context(self):
-#         context={"visit_id":self.kwargs["visit_pk"]}
-#         return context
+
+
+class CategoriesApi(APIView):
+    def get(self, request):
+        queryset=Category.objects.all()
+        serializer=CategorySerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer=CategorySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+
+class CategoryApi(APIView):
+    def get(self, request, pk):
+        object=get_object_or_404(Category, id=pk)
+        serializer=CategorySerializer(object)
+        return Response(serializer.data)
+    
+    def put(self, request, pk):
+        object=get_object_or_404(Category, id=pk)
+        serializer=CategorySerializer(object, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    def delete(self, request, pk):
+        object=get_object_or_404(Category, id=pk)
+        object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class VisitsApi(APIView):
+    def get(self, request):
+        queryset=Visit.objects.all()
+        serializer=VisitSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer=VisitSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+
+class VisitApi(APIView):
+    def get(self, request, pk):
+        object=get_object_or_404(Visit, id=pk)
+        serializer=VisitSerializer(object)
+        return Response(serializer.data)
+    
+    def put(self, request, pk):
+        object=get_object_or_404(Visit, id=pk)
+        serializer=VisitSerializer(object, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    def delete(self, request, pk):
+        object=get_object_or_404(Visit, id=pk)
+        object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

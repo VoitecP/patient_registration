@@ -1,20 +1,7 @@
 from django.urls import path, include
 from .views import *
 from rest_framework.routers import DefaultRouter 
-# from rest_framework_nested import routers
-
-# router=routers.DefaultRouter()
-router=DefaultRouter()
-
-router.register('patientes', PatientViewSet, basename='patientes')
-router.register('visits', VisitViewSet)
-router.register('doctors', DoctorViewSet)
-router.register('categories', CategoryViewSet)
-
-# opinion_router=routers.NestedDefaultRouter(router, "doctors", lookup="opinion_pk" )
-# opinion_router.register("opinions",OpinionViewSet, basename="doctor-opinion")
-
-# urlpatterns = router.urls
+from .routers import router
 
 
 
@@ -25,13 +12,13 @@ urlpatterns =[
     # path('', PatientCreateView.as_view(), name='patients'),                  # temp view
     
     
-    # path('patients/<str:pk>/',PatientApi.as_view(),name='patient-api'),
-    # path('visits/', VisitsApi.as_view(),name='visits-api'),
-    # path('visits/<str:pk>/', VisitApi.as_view(),name='visit-api'),
-    # path('doctors/', DoctorsApi.as_view(),name='doctors-api'),
-    # path('doctors/<str:pk>/', DoctorApi.as_view(),name='doctor-api'),
-    # path('categories/', CategoriesApi.as_view(),name='categories-api'),
-    # path('categories/<str:pk>/', CategoryApi.as_view(),name='category-api'),
+    path('patients/<str:pk>/',PatientApi.as_view(),name='patient-api'),
+    path('visits/', VisitsApi.as_view(),name='visits-api'),
+    path('visits/<str:pk>/', VisitApi.as_view(),name='visit-api'),
+    path('doctors/', DoctorsApi.as_view(),name='doctors-api'),
+    path('doctors/<str:pk>/', DoctorApi.as_view(),name='doctor-api'),
+    path('categories/', CategoriesApi.as_view(),name='categories-api'),
+    path('categories/<str:pk>/', CategoryApi.as_view(),name='category-api'),
 ]
 
 
