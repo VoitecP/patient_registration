@@ -6,7 +6,8 @@ class PatientFilter(FilterSet):
         model=Patient
         fields={
             'id':['exact'],
-            'name':['exact'],  
+            'name':['exact'],
+            'surname':['exact'],   
         }
 
 class DoctorFilter(FilterSet):
@@ -14,7 +15,8 @@ class DoctorFilter(FilterSet):
         model=Doctor
         fields={
             'id':['exact'],
-            'name':['exact'],  
+            'name':['exact'],
+            'surname':['exact'],  
         }
 
 
