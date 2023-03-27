@@ -30,3 +30,12 @@ class VisitFilter(FilterSet):
             'price': ['gt','lt'],
             
         }
+
+class CategoryFilter(FilterSet):
+    class Meta:
+        model=Category
+        fields={
+            'id':['exact'],
+            'name':['exact'],  
+
+        }

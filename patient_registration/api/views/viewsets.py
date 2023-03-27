@@ -1,18 +1,17 @@
 from patientes.models import *
 from ..serializers import *
 from api.filters import *
-
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
-
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-# from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 
 class PatientViewSet(ModelViewSet):
     queryset=Patient.objects.all()
     serializer_class=PatientSerializer
-    filter_backends=[DjangoFilterBackend, SearchFilter, OrderingFilter] 
+    permission_classes=[IsAuthenticated]
+    filter_backends=[DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class=PatientFilter        
     search_fields=['name','surname','citizen_id']
     ordering_fields=['citizen_id', 'name', 'surname'] 
@@ -21,25 +20,36 @@ class PatientViewSet(ModelViewSet):
 class DoctorViewSet(ModelViewSet):
     queryset=Doctor.objects.all()
     serializer_class=DoctorSerializer
+    permission_classes=[IsAuthenticated] 
+    filter_backends=[DjangoFilterBackend, SearchFilter, OrderingFilter] 
+    filterset_class=DoctorFilter        
+    search_fields=['id','name','surname']
+    ordering_fields=['specialisation', 'name', 'surname'] 
 
 
 class VisitViewSet(ModelViewSet):
     queryset=Visit.objects.all()
     serializer_class=VisitSerializer
+    permission_classes=[IsAuthenticated] 
+    filter_backends=[DjangoFilterBackend, SearchFilter, OrderingFilter] 
+    filterset_class=VisitFilter        
+    search_fields=['id','patient__name','patient__surname']
+    ordering_fields=['description', 'patient__name', 'patient__surname','category'] 
 
 
 class CategoryViewSet(ModelViewSet):
     queryset=Category.objects.all()
     serializer_class=CategorySerializer
+    permission_classes=[IsAuthenticated] 
+    filter_backends=[DjangoFilterBackend, SearchFilter, OrderingFilter] 
+    filterset_class=CategoryFilter        
+    search_fields=['id','name']
+    ordering_fields=['id', 'name'] 
 
 
 
 
-# class VisitViewSet(CreateModelMixin, RetrieveModelMixin,  DestroyModelMixin, GenericViewSet):
-#     queryset= Visit.objects.all()
-#     serializer_class=VisitSerializer
-    #  Config Router..
-    #  URLs     router.register("visits", views.VisitViewSet)
+
 
 
 

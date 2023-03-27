@@ -7,6 +7,7 @@ from rest_framework.response import  Response
 from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 class Paginator(PageNumberPagination):
     page_size=4
@@ -16,12 +17,21 @@ class Paginator(PageNumberPagination):
 
 
 class PatientsApi(APIView):
+    permission_classes=[IsAuthenticated]
     def get(self, request):
         queryset = Patient.objects.all()
         paginator=Paginator()
         paginated_queryset=paginator.paginate_queryset(queryset, request)
         serializer = PatientSerializer(paginated_queryset, many = True)
         return paginator.get_paginated_response(serializer.data)
+
+    # def get(self, request, format=None):
+    #     content = {
+    #         'user': str(request.user),  # `django.contrib.auth.User` instance.
+    #         'auth': str(request.auth),  # None
+    #     }
+    #     return Response(content)
+
 
     def post(self, request):
         serializer = PatientSerializer(data = request.data)
@@ -31,6 +41,7 @@ class PatientsApi(APIView):
 
 
 class PatientApi(APIView):
+    permission_classes=[IsAuthenticated]
     def get(self, request, pk):
         object = get_object_or_404(Patient, id = pk)
         serializer = PatientSerializer(object)
@@ -51,6 +62,7 @@ class PatientApi(APIView):
 
 
 class DoctorsApi(APIView):
+    permission_classes=[IsAuthenticated]
     def get(self, request):
         queryset = Doctor.objects.all()
         paginator=Paginator()
@@ -67,6 +79,7 @@ class DoctorsApi(APIView):
 
 
 class DoctorApi(APIView):
+    permission_classes=[IsAuthenticated]
     def get(self, request, pk):
         object = get_object_or_404(Doctor, id = pk)
         serializer = DoctorSerializer(object)
@@ -87,6 +100,7 @@ class DoctorApi(APIView):
 
 
 class CategoriesApi(APIView):
+    permission_classes=[IsAuthenticated]
     def get(self, request):
         queryset = Category.objects.all()
         paginator=Paginator()
@@ -102,6 +116,7 @@ class CategoriesApi(APIView):
 
 
 class CategoryApi(APIView):
+    permission_classes=[IsAuthenticated]
     def get(self, request, pk):
         object = get_object_or_404(Category, id = pk)
         serializer = CategorySerializer(object)
@@ -121,6 +136,7 @@ class CategoryApi(APIView):
 
 
 class VisitsApi(APIView):
+    permission_classes=[IsAuthenticated]
     def get(self, request):
         queryset = Visit.objects.all()
         paginator=Paginator()
@@ -136,6 +152,7 @@ class VisitsApi(APIView):
 
 
 class VisitApi(APIView):
+    permission_classes=[IsAuthenticated]
     def get(self, request, pk):
         object = get_object_or_404(Visit, id = pk)
         serializer = VisitSerializer(object)
